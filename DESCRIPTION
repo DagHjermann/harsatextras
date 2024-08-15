@@ -1,12 +1,14 @@
 Package: harsatextras
-Title: What the Package Does (One Line, Title Case)
+Title: Functions adding extra functionality to the harsat package
 Version: 0.0.0.9000
 Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"),
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
-License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
-    license
+    person("Dag Øystein", "Hjermann", , "dag.hjermann@niva.no", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-6931-1670"))
+Description: This package adds some functions that enables one to perform assessment using the HARSAT package within the framework of a targets workflow. Specifically, it enables the user to add 'static branching', so if a small part of the dataset changes, assessment needs to be re-run for only relatively few time series, thus, saving time. Also, it contains a function for extracting the assessment results so they can be plotted using, e.g., ggplot2.
+License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.1
+Depends: 
+    R (>= 2.10)
+LazyData: true

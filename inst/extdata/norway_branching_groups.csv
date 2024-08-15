@@ -1,0 +1,5 @@
+determinand,station_code,species,matrix,subseries,basis,n,branch
+CD,4954,Mytilus edulis,SB,NA,W,119,CD_allstations
+CD,4994,Gadus morhua,LI,NA,W,585,CD_allstations
+PFOS,4954,Mytilus edulis,SB,NA,W,21,PFOS_allstations
+PFOS,4994,Gadus morhua,LI,NA,W,250,PFOS_allstations

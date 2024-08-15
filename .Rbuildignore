@@ -1,2 +1,6 @@
 ^harsatextras\.Rproj$
 ^\.Rproj\.user$
+^data-raw$
+_create_package.R
+
+^LICENSE\.md$
