@@ -13,4 +13,7 @@ use_data(info_object)
 # station_dictionary
 file.copy("data-raw/ICES_DOME_STATIONS_20230829_NO.csv", "inst/extdata/ICES_DOME_STATIONS_20230829_NO.csv")
 
+# info object
+file.copy("data-raw/info.rds", "inst/extdata/info.rds")
+
 

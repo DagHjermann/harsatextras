@@ -127,4 +127,10 @@ load_all()
 ?harsatextras_example
 # testing examples in help file
 
+# add read_data_tar ----
+use_r("read_data_tar")
+
+
+
+
 
