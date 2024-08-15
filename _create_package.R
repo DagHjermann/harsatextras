@@ -113,4 +113,9 @@ use_r("split_timeseries_object")
 # - add the two RData (rda) files needed to test run 'split_timeseries_object'
 # - finalize description for 'split_timeseries_object' , including example
 
+# read_data_tar, preparations ----
+# add
+# - info file (as exported data object)
+# - station dictionary (as csv file)
+
 

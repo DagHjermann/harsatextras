@@ -22,3 +22,14 @@
 #' @format A data frame with 7 columns, six columns that will be matched with the data ("determinand",
 #' "station_code", "species", "matrix", "subseries", and "basis"), and one column that defines the groupings ("branch").
 "norway_branching_groups"
+
+
+#' Information object used by harsat procedure
+#'
+#' This object contains a lot of information needed for assessment, including standard units, transformation to be used etc. for each determinand, standard dry weights
+#' and lipid percentages for different tissues in each species, etc. This list is used in the tidying of the data as well as in
+#' the assessment.
+#'
+#' @format a list of 17 objects, including strings, lists and data frames
+"info_object"
+
