@@ -118,4 +118,13 @@ use_r("split_timeseries_object")
 # - info file (as exported data object)
 # - station dictionary (as csv file)
 
+# add path helper function 'harsatextras_example' (to use for e.g. the station dictionary)
+use_r("harsatextras_example")
+# copied function (and changed [package name]) from R Packages chapter 7.3.2.
+# added help text in Roygen format
+document()
+load_all()
+?harsatextras_example
+# testing examples in help file
+
 
