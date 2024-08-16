@@ -2,5 +2,6 @@
 ^\.Rproj\.user$
 ^data-raw$
 _create_package.R
+_test_harsat_targets.R
 
 ^LICENSE\.md$
