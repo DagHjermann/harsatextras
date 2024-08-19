@@ -13,6 +13,7 @@
 #' @param control See ?harsat::read_data
 #'
 #' @return A list with four components: \code{call}, \code{info}, \code{data}, and \code{stations}
+#'
 #' @export
 #'
 #' @examples
