@@ -58,6 +58,17 @@ calculations, but it is intended to move other structures such as
 \item{...}{Extra arguments which are passed to assessment_engine. See
 details (which need to be written).}
 }
+\value{
+Returns a harsat assessment object, which is a list with the following 6 items:
+\enumerate{
+\item call (a language object)
+\item data - a data frame
+\item stations - a data.frame
+\item timeSeries - a data.frame with one row per time series
+\item info - a list of 20 items
+\item assessment - a list with one item per time series
+}
+}
 \description{
 Fits a model to each timeseries, test for any temporal trend and compare with
 thresholds. This function is identical to \code{run_assessment}, but is adapted
@@ -95,7 +106,7 @@ norway_tidy <- harsat::tidy_data(norway_data)
 norway_tidy2 <- tidy_data2(norway_tidy)
 norway_timeseries_all <- harsat::create_timeseries(
   norway_tidy2,
-  determinands = harsat::ctsm_get_determinands(biota_data_tidy2$info),
+  determinands = harsat::ctsm_get_determinands(norway_tidy2$info),
   determinands.control = NULL,
   oddity_path = oddities.dir,   # this doesn't seem to be respected, files are written to oddities/biota
   return_early = FALSE,

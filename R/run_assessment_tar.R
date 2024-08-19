@@ -45,6 +45,14 @@
 #' second argument of \code{run_assessment_tar}.
 #'
 #' @return
+#' Returns a harsat assessment object, which is a list with the following 6 items:
+#' 1. call (a language object)
+#' 1. data - a data frame
+#' 1. stations - a data.frame
+#' 1. timeSeries - a data.frame with one row per time series
+#' 1. info - a list of 20 items
+#' 1. assessment - a list with one item per time series
+#'
 #' @export
 #'
 #' @examples
@@ -70,7 +78,7 @@
 #' norway_tidy2 <- tidy_data2(norway_tidy)
 #' norway_timeseries_all <- harsat::create_timeseries(
 #'   norway_tidy2,
-#'   determinands = harsat::ctsm_get_determinands(biota_data_tidy2$info),
+#'   determinands = harsat::ctsm_get_determinands(norway_tidy2$info),
 #'   determinands.control = NULL,
 #'   oddity_path = oddities.dir,   # this doesn't seem to be respected, files are written to oddities/biota
 #'   return_early = FALSE,
