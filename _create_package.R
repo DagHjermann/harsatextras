@@ -139,7 +139,11 @@ load_all()
 #
 # add more functions ----
 #
+# For eqch time series, use the work flow
+# use_r -> Code > Insert ROxygen skeleton -> document() -> load_all()
 
 use_r("tidy_data2")
 use_r("run_assessment_tar")
+use_r("get_assessment_data")
+
 

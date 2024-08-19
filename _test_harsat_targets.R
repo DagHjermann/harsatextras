@@ -28,7 +28,7 @@ norway_tidy <- harsat::tidy_data(norway_data)
 norway_tidy2 <- tidy_data2(norway_tidy)
 norway_timeseries_all <- harsat::create_timeseries(
   norway_tidy2,
-  determinands = harsat::ctsm_get_determinands(biota_data_tidy2$info),
+  determinands = harsat::ctsm_get_determinands(norway_tidy2$info),
   determinands.control = NULL,
   oddity_path = oddities.dir,   # this doesn't seem to be respected, files are written to oddities/biota
   return_early = FALSE,
@@ -64,12 +64,25 @@ assessment_part1 <- run_assessment_tar(
 # Check result:
 str(assessment_part1, 1)
 
+plotdat <- get_assessment_data(assessment_part1)
+
+str(plotdat, 1)
+str(plotdat[[1]], 1)
 
 
+library(ggplot2)
 
-
-
-biota_data_tidy <- tidy_data_tar(biota_data)
-# tar_target(biota_data_tidy2, tidy_data2(biota_data_tidy)),
-
-
+i <- 2
+ggplot(plotdat[[i]]$assessment$fullData, aes(year)) +
+  geom_ribbon(
+    data = plotdat[[i]]$assessment$pred,
+    aes(ymin = exp(ci.lower), ymax = exp(ci.upper)),  # note; hard-coded exp
+    fill = "lightblue") +
+  geom_path(
+    data = plotdat[[i]]$assessment$pred,
+    aes(y = exp(fit))) +
+  geom_point(
+    aes(y = concentration, color = censoring),
+    color = "darkred") +
+  scale_y_log10() +
+  labs(title = plotdat[[i]]$output_id)
