@@ -13,6 +13,7 @@
 #     - in RStudio (on jupyterhub), create_package and use_git()
 #     - initiates the local git setup (on your hardisk, or rather, jupyterhub's hard disk)
 
+# from the level above_
 library(devtools)
 create_package()
 # new project opens
@@ -47,11 +48,11 @@ usethis::use_data_raw()
 # From the folder 'example_data' in 'harsat_targets' project
 #
 
-# Csv files - will be put in package folder 'inst/extdata/', see "R Packagesd" chapter 7.3)
+# 1. Csv files - will be put in package folder 'inst/extdata/', see "R Packages" chapter 7.3)
 # Just made folder 'inst/extdata/' and uploaded csv files to that folder
 #   from my harddisk (drag-and-drop from harsat_targets/example_data)
 
-# Rdata (rds/rda) files - made it a bit closer to the correct way
+# 2. Rdata (rds/rda) files - made it a bit closer to the correct way
 # - uploaded RDS files to the 'data-raw' folder from my harddisk
 # - made new file 'rds_files.R'
 # - wrote two lines of code:
@@ -129,8 +130,16 @@ load_all()
 
 # add read_data_tar ----
 use_r("read_data_tar")
+# Code > Insert ROxygen skeleton
+# ... fill out text for help file
+document()
+load_all()
+?read_data_tar
 
+#
+# add more functions ----
+#
 
-
-
+use_r("tidy_data2")
+use_r("run_assessment_tar")
 
