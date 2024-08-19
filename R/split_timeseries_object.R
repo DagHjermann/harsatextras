@@ -14,11 +14,17 @@
 #' # Original time series object: a list of 6 elements
 #' str(norway_timeseries_all, 1)
 #'
-#' # Split it, using 'norway_branching_groups':
+#' # Data frame defining groups (in column 'branch')
+#' branching_path <- harsatextras_example("norway_branching_groups.csv")
+#' norway_branching_groups <- read.csv(branching_path)
+#'
+#' # Split time series object, using 'norway_branching_groups':
 #' timeseries_list <- split_timeseries_object(norway_timeseries_all, norway_branching_groups)
 #'
-#' # The result is a list of two time series objects:
+#' # The result is a list of two time series objects, each bein a list of 6 elements:
 #' str(timeseries_list, 2)
+#'
+#' See ?run_assessment_tar for full workflow
 #'
 #'
 split_timeseries_object <- function(object, df_branching, groupcolumn = "branch"){
