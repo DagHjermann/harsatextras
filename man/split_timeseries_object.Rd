@@ -37,7 +37,7 @@ timeseries_list <- split_timeseries_object(norway_timeseries_all, norway_branchi
 # The result is a list of two time series objects, each bein a list of 6 elements:
 str(timeseries_list, 2)
 
-See ?run_assessment_tar for full workflow
+# See ?run_assessment_tar for full workflow
 
 
 }

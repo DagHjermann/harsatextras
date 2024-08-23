@@ -12,7 +12,7 @@
 #' # Extra tidying:
 #' norway_tidy2 <- tidy_data2(norway_tidy)
 #'
-#' See ?run_assessment_tar for full workflow
+#' # See ?run_assessment_tar for full workflow
 #'
 tidy_data2 <- function(data){
   if ("country" %in% names(data$data))

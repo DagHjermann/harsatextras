@@ -64,6 +64,6 @@ ggplot(plotdat[[i]]$assessment$fullData, aes(year)) +
   scale_y_log10() +
   labs(title = plotdat[[i]]$output_id)
 
-See ?run_assessment_tar for full workflow
+# See ?run_assessment_tar for full workflow
 
 }

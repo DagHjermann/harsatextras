@@ -22,6 +22,6 @@ norway_tidy <- harsat::tidy_data(norway_data)
 # Extra tidying:
 norway_tidy2 <- tidy_data2(norway_tidy)
 
-See ?run_assessment_tar for full workflow
+# See ?run_assessment_tar for full workflow
 
 }
