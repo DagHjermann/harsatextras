@@ -33,3 +33,8 @@
 #' @format a list of 17 objects, including strings, lists and data frames
 "info_object"
 
+#' Assessment object resulting from harsat procedure
+#'
+#' This object contains all the results from an assessment, including both raw data, metadata as well as effects of trend analysis. See \code{?run_assessment_tar} for
+#' the full code for making this object.
+"assessment_part1"
