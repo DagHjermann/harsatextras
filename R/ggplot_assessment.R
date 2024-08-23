@@ -21,7 +21,17 @@
 #'
 #' @examples
 #'
+#' # Extract data for plotting from an assessment object
+#' assessment_data <- get_assessment_data(assessment_part1)
+#'
+#' # Check names of time series
+#' names(assessment_part1$assessment)
+#'
+#' # Plot one time series
+#' ggplot_assessment(assessment_data[["4994 CD Gadus morhua LI NA"]])
+#'
 #' # Combine assessment data (from the branches of the targets work flow) and plot
+#' \dontrun{
 #' assessment_data <- combine_assessment_data()
 #' ggplot_assessment(assessment_data[["10921 CD Gadus morhua LI NA"]])
 #'
@@ -30,6 +40,7 @@
 #'
 #' # Plot all concentration data, use linear y scale (not log)
 #' ggplot_assessment(assessment_data[["10921 CD Gadus morhua LI NA"]], plot_points = "all", logscale = FALSE)
+#' }
 #'
 ggplot_assessment <- function(assessment_data,
                               plot_points = "annual",

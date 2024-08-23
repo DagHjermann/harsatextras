@@ -33,13 +33,13 @@ Extract assessment data from an assessment object
 }
 \examples{
 
-# Exctract the assessment data
-plotdat <- get_assessment_data(
-  biota_assessment,
-  subset = sel_series2)
+plotdat <- get_assessment_data(assessment_part1)
 
 # Shall be equal to the number of time series:
 length(plotdat)
+
+# Names of time series:
+names(plot_dat)
 
 # Check time series number 1:
 i <- 1
@@ -63,6 +63,7 @@ ggplot(plotdat[[i]]$assessment$fullData, aes(year)) +
     color = "darkred") +
   scale_y_log10() +
   labs(title = plotdat[[i]]$output_id)
+
 
 # See ?run_assessment_tar for full workflow
 
