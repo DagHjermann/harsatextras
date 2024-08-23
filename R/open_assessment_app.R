@@ -12,7 +12,7 @@
 #'
 open_assessment_app <- function(assessdata_object){
 
-  library(ggplot2)
+  requireNamespace(ggplot2)
 
   series <- purrr::map(assessdata_object, "series")
   series_names <- names(series)

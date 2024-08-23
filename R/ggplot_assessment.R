@@ -40,6 +40,9 @@ ggplot_assessment <- function(assessment_data,
                               trendcolor_fill = "lightblue",
                               trendwidth = 0.8,
                               ylim = NULL){
+
+  requireNamespace(ggplot2)
+
   if (!is.na(plot_points)){
     if (plot_points == "all"){
       pointdata <- assessment_data$assessment$fullData
