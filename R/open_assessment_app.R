@@ -12,6 +12,8 @@
 #'
 open_assessment_app <- function(assessdata_object){
 
+  library(ggplot2)
+
   series <- purrr::map(assessdata_object, "series")
   series_names <- names(series)
 
@@ -22,7 +24,7 @@ open_assessment_app <- function(assessdata_object){
     station_name = purrr::map_chr(series, "station_name"),
     station_code = purrr::map_chr(series, "station_code")
   ) |>
-    dplyr::mutate(station = paste0(station_names, " (", station_codes, ")"))
+    dplyr::mutate(station = paste0(station_name, " (", station_code, ")"))
 
   lookup_determinands <- lookup_series |>
     dplyr::distinct(group, determinand)
@@ -34,7 +36,7 @@ open_assessment_app <- function(assessdata_object){
   ui <- shiny::fluidPage(
 
     # Application title
-    shiny::titlePanel("Old Faithful Geyser Data"),
+    shiny::titlePanel("Milkys data"),
 
     # Sidebar with a slider input for number of bins
     shiny::sidebarLayout(
