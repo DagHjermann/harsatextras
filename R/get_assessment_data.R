@@ -81,7 +81,7 @@ get_assessment_data <- function(
     by = "station_code"
   )
 
-  timeSeries$group <- ctsm_get_info(
+  timeSeries$group <- harsat::ctsm_get_info(
     info$determinand,
     timeSeries$determinand,
     "group",
@@ -89,7 +89,7 @@ get_assessment_data <- function(
     sep = "_"
   )
 
-  timeSeries$distribution <- ctsm_get_info(
+  timeSeries$distribution <- harsat::ctsm_get_info(
     info$determinand,
     timeSeries$determinand,
     "distribution"
