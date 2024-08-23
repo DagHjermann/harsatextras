@@ -5,14 +5,16 @@
 #'
 #' @examples
 #'
+#' \dontrun{
 #' # Combine assessment data (from the branches of the targets work flow) and
 #' # open assessment app
 #' assessment_data <- combine_assessment_data()
 #' open_assessment_app(assessment_data)
+#' }
 #'
 open_assessment_app <- function(assessdata_object){
 
-  requireNamespace(ggplot2)
+  requireNamespace("ggplot2")
 
   series <- purrr::map(assessdata_object, "series")
   series_names <- names(series)

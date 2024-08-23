@@ -27,13 +27,15 @@
 #' length(plotdat)
 #'
 #' # Names of time series:
-#' names(plot_dat)
+#' names(plotdat)
 #'
 #' # Check time series number 1:
 #' i <- 1
 #' str(plotdat[[i]], 1)
 #' str(plotdat[[i]]$assessment, 1)
 #'
+#'
+#' \dontrun{
 #' # Plot time series number 1 using ggplot:
 #'
 #' library(ggplot2)
@@ -51,7 +53,7 @@
 #'     color = "darkred") +
 #'   scale_y_log10() +
 #'   labs(title = plotdat[[i]]$output_id)
-#'
+#' }
 #'
 #' # See ?run_assessment_tar for full workflow
 #'

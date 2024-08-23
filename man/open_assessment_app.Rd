@@ -14,9 +14,11 @@ Test shiny
 }
 \examples{
 
+\dontrun{
 # Combine assessment data (from the branches of the targets work flow) and
 # open assessment app
 assessment_data <- combine_assessment_data()
 open_assessment_app(assessment_data)
+}
 
 }
