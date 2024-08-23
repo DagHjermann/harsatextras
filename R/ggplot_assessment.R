@@ -52,7 +52,7 @@ ggplot_assessment <- function(assessment_data,
                               trendwidth = 0.8,
                               ylim = NULL){
 
-  requireNamespace(ggplot2)
+  requireNamespace("ggplot2")
 
   if (!is.na(plot_points)){
     if (plot_points == "all"){
@@ -74,30 +74,30 @@ ggplot_assessment <- function(assessment_data,
     pointdata <- NULL
   }
   if (!is.null(pointdata)){
-    gg <- ggplot2::ggplot(pointdata, aes(year)) +
+    gg <- ggplot2::ggplot(pointdata, ggplot2::aes(year)) +
       ggplot2::geom_ribbon(
         data = assessment_data$assessment$pred,
-        aes(ymin = exp(ci.lower), ymax = exp(ci.upper)),  # note; hard-coded exp
+        ggplot2::aes(ymin = exp(ci.lower), ymax = exp(ci.upper)),  # note; hard-coded exp
         fill = trendcolor_fill) +
       ggplot2::geom_path(
         data = assessment_data$assessment$pred,
-        aes(y = exp(fit)),
+        ggplot2::aes(y = exp(fit)),
         color = trendcolor_line,
-        linewidth = rel(trendwidth)) +
+        linewidth = ggplot2::rel(trendwidth)) +
       ggplot2::geom_point(
-        aes(y = y, shape = LOQ),
+        ggplot2::aes(y = y, shape = LOQ),
         color = pointcolor) +
       ggplot2::scale_shape_manual(
         values = c("Over LOQ" = pointshapes[1], "Under LOQ" = pointshapes[2]))
   } else {
-    gg <- ggplot2::ggplot(assessment_data$assessment$pred, aes(year)) +
+    gg <- ggplot2::ggplot(assessment_data$assessment$pred, ggplot2::aes(year)) +
       ggplot2::geom_ribbon(
-        aes(ymin = exp(ci.lower), ymax = exp(ci.upper)),  # note; hard-coded exp
+        ggplot2::aes(ymin = exp(ci.lower), ymax = exp(ci.upper)),  # note; hard-coded exp
         fill = trendcolor_fill) +
       ggplot2::geom_path(
-        aes(y = exp(fit)),
+        ggplot2::aes(y = exp(fit)),
         color = trendcolor_line,
-        size = rel(trendwidth))
+        size = ggplot2::rel(trendwidth))
   }
   gg <- gg  +
     ggplot2::labs(
