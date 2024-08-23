@@ -11,4 +11,6 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.1
 Depends: 
     R (>= 2.10)
+Suggests:
+    harsat, targets, dplyr, ggplot2, lubridate, purrr, shiny, tibble  
 LazyData: true
