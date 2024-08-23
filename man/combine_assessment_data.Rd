@@ -40,10 +40,14 @@ This could probably also have been achieved with "tar_combine".
 
 # Default usage if you are in the targets project, and the assessment data targets start
 # with 'biota_assess_data':
+\dontrun{
 assessment_data <- combine_assessment_data()
+}
 
+\dontrun{
 # Reading froma targets store in another project:
 assessment_data <- combine_assessment_data(store = "../milkys4/_targets/")
+}
 
 
 }
