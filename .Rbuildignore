@@ -3,5 +3,7 @@
 ^data-raw$
 _create_package.R
 _test_harsat_targets.R
+oddities
+oddities/*.*
 
 ^LICENSE\.md$
