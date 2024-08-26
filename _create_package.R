@@ -140,11 +140,16 @@ load_all()
 # add more functions ----
 #
 # For eqch time series, use the work flow
-# use_r -> Code > Insert ROxygen skeleton -> document() -> load_all()
+# use_r -> Code > Insert ROxygen skeleton -> document() -> load_all() -> check()
 
 use_r("tidy_data2")
 use_r("run_assessment_tar")
 use_r("get_assessment_data")
 use_r("combine_assessment_data")
+# for the latter, remmeber to wrap examples in \dontrun{}
 use_r("ggplot_assessment")
+# for the latter, remember
+#   requireNamespace("ggplot2") (and note: name in quotes)
+use_r("open_assessment_app")
+
 

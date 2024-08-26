@@ -6,6 +6,9 @@
 \usage{
 open_assessment_app(assessdata_object)
 }
+\arguments{
+\item{assessdata_object}{An assessment data object, i.e. the output of \code{get_assessment_data} or \code{combine_assessment_data}.}
+}
 \value{
 shinyApp object
 }

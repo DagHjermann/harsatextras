@@ -1,5 +1,6 @@
 #' Test shiny
 #'
+#' @param assessdata_object An assessment data object, i.e. the output of \code{get_assessment_data} or \code{combine_assessment_data}.
 #' @return shinyApp object
 #' @export
 #'
