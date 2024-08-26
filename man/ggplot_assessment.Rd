@@ -56,8 +56,17 @@ assessment_data <- get_assessment_data(assessment_part1)
 # Check names of time series
 names(assessment_part1$assessment)
 
-# Plot one time series
+# Plot one time series, showing trend and annual means, and logarithmic y axis
 ggplot_assessment(assessment_data[["4994 CD Gadus morhua LI NA"]])
+
+# Showing trend only
+ggplot_assessment(assessment_data[["4994 CD Gadus morhua LI NA"]], plot_points = NA)
+
+# Showing trend and raw data
+ggplot_assessment(assessment_data[["4994 CD Gadus morhua LI NA"]], plot_points = "all")
+
+# Same, but usinglinear logarithmic y axis
+ggplot_assessment(assessment_data[["4994 CD Gadus morhua LI NA"]], plot_points = "all", logscale = FALSE)
 
 # Combine assessment data (from the branches of the targets work flow) and plot
 \dontrun{

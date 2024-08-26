@@ -27,8 +27,17 @@
 #' # Check names of time series
 #' names(assessment_part1$assessment)
 #'
-#' # Plot one time series
+#' # Plot one time series, showing trend and annual means, and logarithmic y axis
 #' ggplot_assessment(assessment_data[["4994 CD Gadus morhua LI NA"]])
+#'
+#' # Showing trend only
+#' ggplot_assessment(assessment_data[["4994 CD Gadus morhua LI NA"]], plot_points = NA)
+#'
+#' # Showing trend and raw data
+#' ggplot_assessment(assessment_data[["4994 CD Gadus morhua LI NA"]], plot_points = "all")
+#'
+#' # Same, but usinglinear logarithmic y axis
+#' ggplot_assessment(assessment_data[["4994 CD Gadus morhua LI NA"]], plot_points = "all", logscale = FALSE)
 #'
 #' # Combine assessment data (from the branches of the targets work flow) and plot
 #' \dontrun{
@@ -73,15 +82,21 @@ ggplot_assessment <- function(assessment_data,
   } else {
     pointdata <- NULL
   }
+  pred <- assessment_data$assessment$pred
+  if (assessment_data$series$distribution == "lognormal"){
+    pred$ci.lower <- exp(pred$ci.lower)
+    pred$ci.upper <- exp(pred$ci.upper)
+    pred$fit <- exp(pred$fit)
+  }
   if (!is.null(pointdata)){
     gg <- ggplot2::ggplot(pointdata, ggplot2::aes(year)) +
       ggplot2::geom_ribbon(
-        data = assessment_data$assessment$pred,
-        ggplot2::aes(ymin = exp(ci.lower), ymax = exp(ci.upper)),  # note; hard-coded exp
+        data = pred,
+        ggplot2::aes(ymin = ci.lower, ymax = ci.upper),  # note; hard-coded exp
         fill = trendcolor_fill) +
       ggplot2::geom_path(
-        data = assessment_data$assessment$pred,
-        ggplot2::aes(y = exp(fit)),
+        data = pred,
+        ggplot2::aes(y = fit),
         color = trendcolor_line,
         linewidth = ggplot2::rel(trendwidth)) +
       ggplot2::geom_point(
@@ -90,12 +105,12 @@ ggplot_assessment <- function(assessment_data,
       ggplot2::scale_shape_manual(
         values = c("Over LOQ" = pointshapes[1], "Under LOQ" = pointshapes[2]))
   } else {
-    gg <- ggplot2::ggplot(assessment_data$assessment$pred, ggplot2::aes(year)) +
+    gg <- ggplot2::ggplot(pred, ggplot2::aes(year)) +
       ggplot2::geom_ribbon(
-        ggplot2::aes(ymin = exp(ci.lower), ymax = exp(ci.upper)),  # note; hard-coded exp
+        ggplot2::aes(ymin = ci.lower, ymax = ci.upper),  # note; hard-coded exp
         fill = trendcolor_fill) +
       ggplot2::geom_path(
-        ggplot2::aes(y = exp(fit)),
+        ggplot2::aes(y = fit),
         color = trendcolor_line,
         size = ggplot2::rel(trendwidth))
   }
