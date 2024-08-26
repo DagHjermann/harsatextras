@@ -15,6 +15,8 @@
 #' @param trendcolor_fill String (color name or hex code) giving the fill color of the trend confidence interval
 #' @param trendwidth Number giving the line with of the trend line
 #' @param ylim A vector of two numbers, giving min and max of the y axis. If NULL (the default), this is determined automatically
+#' @param title Plot title (by default, \code{output_id})
+#' @param subtitle Plot subtitle (by default, \code{station_name})
 #'
 #' @return A ggplot2 object
 #' @export
@@ -36,8 +38,13 @@
 #' # Showing trend and raw data
 #' ggplot_assessment(assessment_data[["4994 CD Gadus morhua LI NA"]], plot_points = "all")
 #'
-#' # Same, but usinglinear logarithmic y axis
+#' # Same, but using linear logarithmic y axis
 #' ggplot_assessment(assessment_data[["4994 CD Gadus morhua LI NA"]], plot_points = "all", logscale = FALSE)
+#'
+#' # Add custom title and subtitle
+#' ggplot_assessment(assessment_data[["4994 CD Gadus morhua LI NA"]], plot_points = "all",
+#'                   title = 'Cadmium in cod liver at Bjørneroya station',
+#'                   subtitle = 'Note: logarithmic y axis')
 #'
 #' # Combine assessment data (from the branches of the targets work flow) and plot
 #' \dontrun{
@@ -59,7 +66,9 @@ ggplot_assessment <- function(assessment_data,
                               trendcolor_line = "darkblue",
                               trendcolor_fill = "lightblue",
                               trendwidth = 0.8,
-                              ylim = NULL){
+                              ylim = NULL,
+                              title = NULL,
+                              subtitle = NULL){
 
   requireNamespace("ggplot2")
 
@@ -114,10 +123,14 @@ ggplot_assessment <- function(assessment_data,
         color = trendcolor_line,
         size = ggplot2::rel(trendwidth))
   }
+  if (is.null(title))
+    title <- assessment_data$output_id
+  if (is.null(subtitle))
+    subtitle <- assessment_data$series$station_name
   gg <- gg  +
     ggplot2::labs(
-      title = assessment_data$output_id,
-      subtitle = assessment_data$series$station_name,
+      title = title,
+      subtitle = subtitle,
       y = paste0("Concentration, ", assessment_data$series$unit))
   if (!is.null(ylim)){
     if (!(is.numeric(ylim) & length(ylim) == 2)){

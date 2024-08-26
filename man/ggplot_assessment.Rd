@@ -13,7 +13,9 @@ ggplot_assessment(
   trendcolor_line = "darkblue",
   trendcolor_fill = "lightblue",
   trendwidth = 0.8,
-  ylim = NULL
+  ylim = NULL,
+  title = NULL,
+  subtitle = NULL
 )
 }
 \arguments{
@@ -37,6 +39,10 @@ for over-LOQ concentrations and 6 (triangle pointing down) for under-LOQ concent
 \item{trendwidth}{Number giving the line with of the trend line}
 
 \item{ylim}{A vector of two numbers, giving min and max of the y axis. If NULL (the default), this is determined automatically}
+
+\item{title}{Plot title (by default, \code{output_id})}
+
+\item{subtitle}{Plot subtitle (by default, \code{station_name})}
 }
 \value{
 A ggplot2 object
@@ -65,8 +71,13 @@ ggplot_assessment(assessment_data[["4994 CD Gadus morhua LI NA"]], plot_points =
 # Showing trend and raw data
 ggplot_assessment(assessment_data[["4994 CD Gadus morhua LI NA"]], plot_points = "all")
 
-# Same, but usinglinear logarithmic y axis
+# Same, but using linear logarithmic y axis
 ggplot_assessment(assessment_data[["4994 CD Gadus morhua LI NA"]], plot_points = "all", logscale = FALSE)
+
+# Add custom title and subtitle
+ggplot_assessment(assessment_data[["4994 CD Gadus morhua LI NA"]], plot_points = "all",
+                  title = 'Cadmium in cod liver at Bjørneroya station',
+                  subtitle = 'Note: logarithmic y axis')
 
 # Combine assessment data (from the branches of the targets work flow) and plot
 \dontrun{
