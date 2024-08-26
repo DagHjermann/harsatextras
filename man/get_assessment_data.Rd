@@ -29,7 +29,9 @@ with the following components:
 }
 }
 \description{
-Extract assessment data from an assessment object
+This function is based on harsat::plot_assessment, but instead of making the trend plot itself,
+it only returns the data needed to make an assessment plot. This way, you can change the
+style of the assessment plot to your own liking, for instance using ggplot2 package.
 }
 \examples{
 
