@@ -7,3 +7,4 @@ oddities
 oddities/*.*
 
 ^LICENSE\.md$
+^README\.Rmd$

@@ -152,4 +152,9 @@ use_r("ggplot_assessment")
 #   requireNamespace("ggplot2") (and note: name in quotes)
 use_r("open_assessment_app")
 
+#
+# Better Readme
+#
+usethis::use_readme_rmd()
+devtools::build_readme()
 
