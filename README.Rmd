@@ -95,7 +95,7 @@ plotdata[[1]]$series$distribution
 ```
 The following is an example plot of both raw data and trend lines using ggplot2:
 
-```{r}
+```{r, plot_assessment_data4}
 
 library(ggplot2)
 
@@ -114,4 +114,14 @@ ggplot(plotdata[[i]]$assessment$fullData, aes(year)) +
   labs(title = plotdata[[i]]$output_id)
 
 ```
+
+`ggplot_assessment()` is a simple function for making trend plots using the ggplot2 package. See
+?ggplot_assessment for options.
+
+```{r, ggplot_assessment}
+
+ggplot_assessment(plotdata[[i]])
+
+```
+
 

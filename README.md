@@ -126,4 +126,14 @@ ggplot(plotdata[[i]]$assessment$fullData, aes(year)) +
   labs(title = plotdata[[i]]$output_id)
 ```
 
-<img src="man/figures/README-unnamed-chunk-2-1.png" width="100%" />
+<img src="man/figures/README-plot_assessment_data4-1.png" width="100%" />
+
+`ggplot_assessment()` is a simple function for making trend plots using
+the ggplot2 package. See ?ggplot_assessment for options.
+
+``` r
+
+ggplot_assessment(plotdata[[i]])
+```
+
+<img src="man/figures/README-ggplot_assessment-1.png" width="100%" />
