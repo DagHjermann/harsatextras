@@ -68,7 +68,8 @@ ggplot_assessment <- function(assessment_data,
                               trendwidth = 0.8,
                               ylim = NULL,
                               title = NULL,
-                              subtitle = NULL){
+                              subtitle = NULL,
+                              add_trend_text = FALSE){
 
   requireNamespace("ggplot2")
 
@@ -141,6 +142,15 @@ ggplot_assessment <- function(assessment_data,
     gg <- gg + ggplot2::scale_y_log10(limits = ylim)
   } else {
     gg <- gg + ggplot2::scale_y_continuous(limits = ylim)
+  }
+  if (add_trend_text){
+    textline1 <- get_trend_text(assessment_data, "overall")
+    textline2 <- get_trend_text(assessment_data, "recent")
+    gg <- gg +
+      scale_y_continuous(expand = expansion(mult = c(0, 0.2))) +
+      annotate("text", x = Inf, y = Inf,
+               label = paste0(textline1, "\n", textline2),
+               hjust = 1.02, vjust = 1.3)
   }
   gg
 }

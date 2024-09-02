@@ -151,10 +151,12 @@ use_r("ggplot_assessment")
 # for the latter, remember
 #   requireNamespace("ggplot2") (and note: name in quotes)
 use_r("open_assessment_app")
+use_r("get_trend_text")
 
 #
 # Better Readme
 #
 usethis::use_readme_rmd()
 devtools::build_readme()
+
 

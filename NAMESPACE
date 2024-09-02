@@ -2,6 +2,7 @@
 
 export(combine_assessment_data)
 export(get_assessment_data)
+export(get_trend_text)
 export(ggplot_assessment)
 export(harsatextras_example)
 export(open_assessment_app)

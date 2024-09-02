@@ -1,12 +1,16 @@
 
 #
-# Installing harsat
+# Installing harsat ----
 #
 # harsat package:
 #   cloned from
 # devtools::install("../HARSAT")
 # Installing 9 packages: bdsmatrix, fastGHQuad, bbmle, rstpm2, muhaz, mstate, TeachingDemos, optimx, flexsurv
 library(harsat)
+
+#
+# Run pipeline commands ----
+#
 
 library(devtools)
 load_all()
@@ -86,3 +90,49 @@ ggplot(plotdat[[i]]$assessment$fullData, aes(year)) +
     color = "darkred") +
   scale_y_log10() +
   labs(title = plotdat[[i]]$output_id)
+
+
+#
+# Read directly from targets results ----
+#
+library(devtools)
+load_all()          # load 'harsatextras' package
+library(targets)
+
+# Load assessment data
+dat_list <- combine_assessment_data(store = "../milkys4/_targets/")
+length(dat_list)
+
+#
+# Check assessment data object
+#
+grep("4871 CD", names(dat_list), value = TRUE)
+dat <- dat_list[["4871 CD Gadus morhua LI NA"]]
+str(dat, 1)
+str(dat$assessment, 1)
+dat$assessment$anova
+dat$assessment$coefficients
+dat$assessment$summary
+
+#
+# Get trend text
+#
+get_trend_text(dat, "overall")
+get_trend_text(dat, "recent")
+
+#
+# Get trend text
+#
+library(ggplot2)
+ggplot_assessment(dat)
+ggplot_assessment(dat, add_trend_text = TRUE)
+
+#
+# Check assessment (not 'assessment data') object
+#
+xx <- tar_read(biota_assess_data_CD_Gad_W, store = "../milkys4/_targets/")
+names(xx)
+x <- xx[["4871 CD Gadus morhua LI NA"]]
+str(x, 1)
+str(x$assessment, 1)
+str(x$assessment$summary, 1)
