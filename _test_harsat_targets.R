@@ -99,9 +99,16 @@ library(devtools)
 load_all()          # load 'harsatextras' package
 library(targets)
 
+#
 # Load assessment data
+#
 dat_list <- combine_assessment_data(store = "../milkys4/_targets/")
 length(dat_list)
+
+#
+# Open Shiny app
+#
+open_assessment_app(dat_list)
 
 #
 # Check assessment data object
@@ -121,7 +128,7 @@ get_trend_text(dat, "overall")
 get_trend_text(dat, "recent")
 
 #
-# Get trend text
+# Add trend text to ggplot
 #
 library(ggplot2)
 ggplot_assessment(dat)
@@ -130,9 +137,20 @@ ggplot_assessment(dat, add_trend_text = TRUE)
 #
 # Check assessment (not 'assessment data') object
 #
-xx <- tar_read(biota_assess_data_CD_Gad_W, store = "../milkys4/_targets/")
-names(xx)
-x <- xx[["4871 CD Gadus morhua LI NA"]]
+targts_all <- tar_completed(store = "../milkys4/_targets/")
+targts_all
+grep("biota_assess_data", targts_all, value = TRUE) |> head(20)
+ass1 <- tar_read(biota_assessment_CD_Gad_W, store = "../milkys4/_targets/")
+ass2 <- tar_read(biota_assessment_CD_Myt_W, store = "../milkys4/_targets/")
+test1 <- purrr::map(list(ass1, ass2), get_assessment_data)
+combine_assessment_data
+names(test1[[1]])
+names(test1[[2]])
+test2 <- unlist(test1, recursive = FALSE)
+names(test2)
+x <- test2[["4871 CD Gadus morhua LI NA"]]
 str(x, 1)
 str(x$assessment, 1)
 str(x$assessment$summary, 1)
+
+
