@@ -21,7 +21,7 @@ open_assessment_app <- function(assessdata_object){
   series_names <- names(series)
 
   lookup_series <- data.frame(
-    names <- names(series),
+    names = names(series),
     group = purrr::map_chr(series, "group"),
     determinand = purrr::map_chr(series, "determinand"),
     station_name = purrr::map_chr(series, "station_name"),
@@ -83,7 +83,7 @@ open_assessment_app <- function(assessdata_object){
       seriesname <- seriesname[1]
 
       ggplot_assessment(
-        assessment_data[[seriesname]],
+        assessdata_object[[seriesname]],
         plot_points = plot_points,
         logscale = logscale)
 
