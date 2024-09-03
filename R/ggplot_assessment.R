@@ -138,19 +138,27 @@ ggplot_assessment <- function(assessment_data,
       stop("ylim must be a vector of two numbers, e.g., 'c(0,10)'")
     }
   }
-  if (logscale){
-    gg <- gg + ggplot2::scale_y_log10(limits = ylim)
-  } else {
-    gg <- gg + ggplot2::scale_y_continuous(limits = ylim)
-  }
   if (add_trend_text){
     textline1 <- get_trend_text(assessment_data, "overall")
     textline2 <- get_trend_text(assessment_data, "recent")
     gg <- gg +
-      scale_y_continuous(expand = expansion(mult = c(0, 0.2))) +
-      annotate("text", x = Inf, y = Inf,
-               label = paste0(textline1, "\n", textline2),
-               hjust = 1.02, vjust = 1.3)
+      ggplot2::annotate(
+        "text",
+        x = Inf, y = Inf,                                          # Inf, Inf = top right of panel
+        label = paste0(textline1, "\n", textline2),                # \n means 'new line'
+        hjust = 1.02, vjust = 1.3)                                 # hjust = 1 means right-adjusted
+                                                                   # vjust = 1 means top-adjusted (1.3 adds extra space)
+  }
+  if (logscale & add_trend_text){
+    gg <- gg + ggplot2::scale_y_log10(limits = ylim,
+                                      expand = ggplot2::expansion(mult = c(0, 0.2)))         # add space on top, to make room for text
+  } else if (logscale & !add_trend_text){
+    gg <- gg + ggplot2::scale_y_log10(limits = ylim)
+  } else if (!logscale & add_trend_text){
+    gg <- gg + ggplot2::scale_y_continuous(limits = ylim,
+                                           expand = ggplot2::expansion(mult = c(0, 0.2)))    # add space on top, to make room for text
+  } else if (!logscale & !add_trend_text){
+    gg <- gg + ggplot2::scale_y_continuous(limits = ylim)
   }
   gg
 }
@@ -162,6 +170,9 @@ if (FALSE){
   ggplot_assessment(
     tar_read(biota_assess_data_PFOS)[["4994 PFOS Gadus morhua LI NA"]],
     plot_points = "all")
+  ggplot_assessment(
+    tar_read(biota_assess_data_PFOS)[["4994 PFOS Gadus morhua LI NA"]],
+    add_trend_text = TRUE)
   ggplot_assessment(
     tar_read(biota_assess_data_PFOS)[["4994 PFOS Gadus morhua LI NA"]],
     plot_points = "annual", logscale = FALSE)

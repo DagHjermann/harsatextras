@@ -15,7 +15,8 @@ ggplot_assessment(
   trendwidth = 0.8,
   ylim = NULL,
   title = NULL,
-  subtitle = NULL
+  subtitle = NULL,
+  add_trend_text = FALSE
 )
 }
 \arguments{
