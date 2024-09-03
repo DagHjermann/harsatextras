@@ -47,7 +47,8 @@ open_assessment_app <- function(assessdata_object){
         shiny::selectInput(inputId = "determinand", label = "Parameter", choices = lookup_determinands$determinand, selected = "CD"),
         shiny::selectInput(inputId = "station", label = "Station", choices = lookup_stations$station, selected = "30B Oslo City area (4684)"),
         shiny::radioButtons(inputId = "plot_points", label = "Points show", choices = c("Annual means", "All data"), selected = "Annual means"),
-        shiny::radioButtons(inputId = "logscale", label = "Scale of y axis", choices = c("Log scale", "Linear scale"), selected = "Log scale")
+        shiny::radioButtons(inputId = "logscale", label = "Scale of y axis", choices = c("Log scale", "Linear scale"), selected = "Log scale"),
+        shiny::checkboxInput(inputId = "add_trend_text", label = "Show trend text", value = TRUE)
       ),
 
       # Show a plot of the generated distribution
@@ -85,7 +86,8 @@ open_assessment_app <- function(assessdata_object){
       ggplot_assessment(
         assessdata_object[[seriesname]],
         plot_points = plot_points,
-        logscale = logscale)
+        logscale = logscale,
+        add_trend_text = input$add_trend_text)
 
     })
   }
