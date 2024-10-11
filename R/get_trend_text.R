@@ -16,12 +16,13 @@
 
 
 get_trend_text <- function(assessment_data, trendlength){
+  recent_no_years <- assessment_data$info$recent.trend
   if (trendlength == "overall"){
     result <- "Long-term:"
     name_pvalue <- "pltrend"
     name_trend <- "ltrend"
   } else if (trendlength == "recent"){
-    result <- "Last 20 years:"
+    result <- paste("Last", recent_no_years, "years:")
     name_pvalue <- "prtrend"
     name_trend <- "rtrend"
   } else {
