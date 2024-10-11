@@ -19,7 +19,8 @@
 #' 1. info - a list of 20 items
 #' 1. output_id - a string describing the series, e.g. "4954 Norway 30A Gressholmen CD Mytilus edulis SB NA"
 #'
-#' @details This could probably also have been achieved with "tar_combine".
+#' @details NOTE: The function currently doesn't check whether the results are pouitdated or not! Technical note: This function could
+#' probably also have been achieved with "tar_combine".
 #'
 #' @export
 #'
@@ -39,8 +40,10 @@
 #'
 combine_assessment_data <- function(targetname_to_search = "biota_assess_data",
                                     store = targets::tar_config_get("store")){
-  df_targets_all <- targets::tar_progress(store = store)
-  target_names <- grep(targetname_to_search, df_targets_all$name, value = TRUE)
+  df_targets_all <- targets::tar_objects(store = store)
+  # NOTE: should add an indication of which targets that are outdated. The next line is a start:
+  # df_targets_outdated <- targets::tar_outdated(store = store)
+  target_names <- grep(targetname_to_search, df_targets_all, value = TRUE)
   # Load all biota assessment data, as separate objects
   targets::tar_load_raw(target_names, store = store)
   # Using get to access the given objects and combine them in a list
