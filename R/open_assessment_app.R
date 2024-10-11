@@ -48,7 +48,9 @@ open_assessment_app <- function(assessdata_object){
         shiny::selectInput(inputId = "station", label = "Station", choices = lookup_stations$station, selected = "30B Oslo City area (4684)"),
         shiny::radioButtons(inputId = "plot_points", label = "Points show", choices = c("Annual means", "All data"), selected = "Annual means"),
         shiny::radioButtons(inputId = "logscale", label = "Scale of y axis", choices = c("Log scale", "Linear scale"), selected = "Log scale"),
-        shiny::checkboxInput(inputId = "add_trend_text", label = "Show trend text", value = TRUE)
+        shiny::checkboxInput(inputId = "add_trend_text", label = "Show trend text", value = TRUE),
+        shiny::textInput("expand_x_txt", "Expand x limits, one or two numbers separated by comma", value = ""),
+        shiny::textInput("expand_y_txt", "Expand y limits, one or two numbers separated by comma", value = "")
       ),
 
       # Show a plot of the generated distribution
@@ -81,13 +83,31 @@ open_assessment_app <- function(assessdata_object){
         logscale <- FALSE
       }
 
+      if (input$expand_x_txt != ""){
+        logscale <- TRUE
+      } else if (input$logscale == "Linear scale"){
+        logscale <- FALSE
+      }
+
       seriesname <- seriesname[1]
 
-      ggplot_assessment(
+      gg <- ggplot_assessment(
         assessdata_object[[seriesname]],
         plot_points = plot_points,
         logscale = logscale,
         add_trend_text = input$add_trend_text)
+
+      if (input$expand_x_txt != ""){
+        expand_x <- as.numeric(strsplit(input$expand_x_txt, ",")[[1]])
+        gg <- gg + ggplot2::expand_limits(x = expand_x)
+      }
+
+      if (input$expand_y_txt != ""){
+        expand_y <- as.numeric(strsplit(input$expand_y_txt, ",")[[1]])
+        gg <- gg + ggplot2::expand_limits(y = expand_y)
+      }
+
+      gg
 
     })
   }
