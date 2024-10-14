@@ -25,7 +25,8 @@ open_assessment_app <- function(assessdata_object){
     group = purrr::map_chr(series, "group"),
     determinand = purrr::map_chr(series, "determinand"),
     station_name = purrr::map_chr(series, "station_name"),
-    station_code = purrr::map_chr(series, "station_code")
+    station_code = purrr::map_chr(series, "station_code"),
+    matrix = purrr::map_chr(series, "matrix")
   ) |>
     dplyr::mutate(station = paste0(station_name, " (", station_code, ")"))
 
@@ -46,6 +47,7 @@ open_assessment_app <- function(assessdata_object){
       shiny::sidebarPanel(
         shiny::selectInput(inputId = "determinand", label = "Parameter", choices = lookup_determinands$determinand, selected = "CD"),
         shiny::selectInput(inputId = "station", label = "Station", choices = lookup_stations$station, selected = "30B Oslo City area (4684)"),
+        shiny::uiOutput("matrixControls"),
         shiny::radioButtons(inputId = "plot_points", label = "Points show", choices = c("Annual means", "All data"), selected = "Annual means"),
         shiny::radioButtons(inputId = "logscale", label = "Scale of y axis", choices = c("Log scale", "Linear scale"), selected = "Log scale"),
         shiny::checkboxInput(inputId = "add_trend_text", label = "Show trend text", value = TRUE),
@@ -63,13 +65,35 @@ open_assessment_app <- function(assessdata_object){
   # Define server logic required to draw a histogram
   server <- function(input, output) {
 
+    series_determ_station <- reactive({
+
+      selected_series <- subset(lookup_series, determinand %in% input$determinand & station %in% input$station)
+
+      selected_series
+
+    })
+
+    output$matrixControls <- shiny::renderUI({
+      series <- series_determ_station()
+      # browser()
+      matrix_values <- unique(series$matrix)
+      selectInput(inputId = "matrix", label = "Matrix",
+                  choices = matrix_values)
+    })
+
     output$trendplot <- shiny::renderPlot({
 
-      seriesname <- subset(lookup_series, determinand %in% input$determinand & station %in% input$station)$name
+      selected_matrix <- input$matrix
 
-      if (length(seriesname) > 1){
+      selected_series <- subset(
+        series_determ_station(),
+        matrix %in% selected_matrix)
+
+      if (nrow(selected_series) > 1){
         warning("more than one series selected")
       }
+
+      seriesname <- selected_series$name[1]
 
       if (input$plot_points == "Annual means"){
         plot_points <- "annual"
@@ -88,8 +112,6 @@ open_assessment_app <- function(assessdata_object){
       } else if (input$logscale == "Linear scale"){
         logscale <- FALSE
       }
-
-      seriesname <- seriesname[1]
 
       gg <- ggplot_assessment(
         assessdata_object[[seriesname]],
