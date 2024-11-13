@@ -5,6 +5,8 @@
 #'
 #' @param assessment_data One list item (i.e. one time series) from a assessment data object, i.e. the output of
 #'  either 'get_assessment_data' or 'combine_assessment_data'.
+#' @param trend_dataframe_series A data frame containing two rows per series, with the columns 'series', 'Trend_type' ('long'
+#' or 'short') and 'Trend_string'
 #' @param plot_points Either "annual" or "all"
 #' @param logscale Boolean (TRUE/FALSE); the default is TRUE
 #' @param pointcolor String (color name or hex code) giving the color of the observation points
@@ -59,7 +61,7 @@
 #' }
 #'
 ggplot_assessment <- function(assessment_data,
-                              trenddata_series,
+                              trend_dataframe_series,
                               plot_points = "annual",
                               logscale = TRUE,
                               pointcolor = "darkred",
@@ -152,8 +154,8 @@ ggplot_assessment <- function(assessment_data,
     }
   }
   if (add_trend_text){
-    textline1 <- get_trend_text(assessment_data, trenddata_series, "overall")
-    textline2 <- get_trend_text(assessment_data, trenddata_series, "recent")
+    textline1 <- get_trend_text(assessment_data, trend_dataframe_series, "overall")
+    textline2 <- get_trend_text(assessment_data, trend_dataframe_series, "recent")
     gg <- gg +
       ggplot2::annotate(
         "text",

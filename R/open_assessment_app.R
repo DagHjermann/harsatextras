@@ -1,6 +1,8 @@
 #' Test shiny
 #'
 #' @param assessdata_object An assessment data object, i.e. the output of \code{get_assessment_data} or \code{combine_assessment_data}.
+#' @param trend_dataframe A data frame containing two rows per series, with the columns 'series', 'Trend_type' ('long'
+#' or 'short') and 'Trend_string'
 #' @return shinyApp object
 #' @export
 #'
@@ -13,7 +15,7 @@
 #' open_assessment_app(assessment_data)
 #' }
 #'
-open_assessment_app <- function(assessdata_object, trenddata){
+open_assessment_app <- function(assessdata_object, trend_dataframe){
 
   requireNamespace("ggplot2")
 
@@ -132,7 +134,7 @@ open_assessment_app <- function(assessdata_object, trenddata){
 
       gg <- ggplot_assessment(
         assessdata_object[[seriesname]],
-        trenddata_series = subset(trenddata, series %in% seriesname),
+        trend_dataframe_series = subset(trend_dataframe, series %in% seriesname),
         plot_points = plot_points,
         logscale = logscale,
         add_trend_text = input$add_trend_text,
