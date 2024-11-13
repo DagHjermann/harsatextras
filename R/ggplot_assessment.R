@@ -69,6 +69,7 @@ ggplot_assessment <- function(assessment_data,
                               ylim = NULL,
                               title = NULL,
                               subtitle = NULL,
+                              label_yaxis = NULL,
                               add_trend_text = FALSE){
 
   requireNamespace("ggplot2")
@@ -124,15 +125,26 @@ ggplot_assessment <- function(assessment_data,
         color = trendcolor_line,
         size = ggplot2::rel(trendwidth))
   }
-  if (is.null(title))
+  if (is.null(title)){
     title <- assessment_data$output_id
+    if (assessment_data$series$determinand == "VDSI.PLUS1"){
+      title <- sub("VDSI.PLUS1", "VDSI (imposex)", title)
+    }
+  }
   if (is.null(subtitle))
     subtitle <- assessment_data$series$station_name
+  if (is.null(label_yaxis)){
+    if (grepl("VDSI", assessment_data$series$determinand)){
+      label_yaxis <- "Average imposex index"
+    } else {
+      label_yaxis <- paste0("Concentration, ", assessment_data$series$unit)
+    }
+  }
   gg <- gg  +
     ggplot2::labs(
       title = title,
       subtitle = subtitle,
-      y = paste0("Concentration, ", assessment_data$series$unit))
+      y = label_yaxis)
   if (!is.null(ylim)){
     if (!(is.numeric(ylim) & length(ylim) == 2)){
       stop("ylim must be a vector of two numbers, e.g., 'c(0,10)'")
