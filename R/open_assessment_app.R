@@ -51,14 +51,17 @@ open_assessment_app <- function(assessdata_object){
         shiny::radioButtons(inputId = "plot_points", label = "Points show", choices = c("Annual means", "All data"), selected = "Annual means"),
         shiny::radioButtons(inputId = "logscale", label = "Scale of y axis", choices = c("Log scale", "Linear scale"), selected = "Log scale"),
         shiny::checkboxInput(inputId = "add_trend_text", label = "Show trend text", value = TRUE),
-        shiny::textInput("expand_x_txt", "Expand x limits, one or two numbers separated by comma", value = ""),
-        shiny::textInput("expand_y_txt", "Expand y limits, one or two numbers separated by comma", value = "")
+        shiny::textInput("expand_x_txt", "Voluntary: Expand x limits (one/two numbers separated by comma)", value = ""),
+        shiny::textInput("expand_y_txt", "Voluntary: Expand y limits (one/two numbers separated by comma)", value = "")
       ),
 
       # Show a plot of the generated distribution
       shiny::mainPanel(
-        shiny::plotOutput("trendplot")
-      )
+        shiny::plotOutput("trendplot"),
+        shiny::textInput("plot_title", "Voluntary: custom plot title", value = ""),
+        shiny::textInput("plot_subtitle", "Voluntary: custom plot subtitle", value = ""),
+        shiny::textInput("plot_ylabel", "Voluntary: custom label for the y axis title", value = "")
+        )
     )
   )
 
@@ -107,17 +110,33 @@ open_assessment_app <- function(assessdata_object){
         logscale <- FALSE
       }
 
-      if (input$expand_x_txt != ""){
-        logscale <- TRUE
-      } else if (input$logscale == "Linear scale"){
-        logscale <- FALSE
+      if (input$plot_title != ""){
+        title <- input$plot_title
+      } else {
+        title <- NULL
+      }
+
+      if (input$plot_subtitle != ""){
+        subtitle <- input$plot_subtitle
+      } else {
+        subtitle <- NULL
+      }
+
+      if (input$plot_ylabel != ""){
+        label_yaxis <- input$plot_ylabel
+      } else {
+        label_yaxis <- NULL
       }
 
       gg <- ggplot_assessment(
         assessdata_object[[seriesname]],
         plot_points = plot_points,
         logscale = logscale,
-        add_trend_text = input$add_trend_text)
+        add_trend_text = input$add_trend_text,
+        title = title,
+        subtitle = subtitle,
+        label_yaxis = label_yaxis
+        )
 
       if (input$expand_x_txt != ""){
         expand_x <- as.numeric(strsplit(input$expand_x_txt, ",")[[1]])
