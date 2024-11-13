@@ -59,6 +59,7 @@
 #' }
 #'
 ggplot_assessment <- function(assessment_data,
+                              trenddata_series,
                               plot_points = "annual",
                               logscale = TRUE,
                               pointcolor = "darkred",
@@ -151,8 +152,8 @@ ggplot_assessment <- function(assessment_data,
     }
   }
   if (add_trend_text){
-    textline1 <- get_trend_text(assessment_data, "overall")
-    textline2 <- get_trend_text(assessment_data, "recent")
+    textline1 <- get_trend_text(assessment_data, trenddata_series, "overall")
+    textline2 <- get_trend_text(assessment_data, trenddata_series, "recent")
     gg <- gg +
       ggplot2::annotate(
         "text",

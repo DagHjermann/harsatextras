@@ -13,7 +13,7 @@
 #' open_assessment_app(assessment_data)
 #' }
 #'
-open_assessment_app <- function(assessdata_object){
+open_assessment_app <- function(assessdata_object, trenddata){
 
   requireNamespace("ggplot2")
 
@@ -128,8 +128,11 @@ open_assessment_app <- function(assessdata_object){
         label_yaxis <- NULL
       }
 
+      # browser()
+
       gg <- ggplot_assessment(
         assessdata_object[[seriesname]],
+        trenddata_series = subset(trenddata, series %in% seriesname),
         plot_points = plot_points,
         logscale = logscale,
         add_trend_text = input$add_trend_text,

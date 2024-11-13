@@ -15,26 +15,32 @@
 #' get_trend_text(assessment_data[["4994 CD Gadus morhua LI NA"]], "recent")
 
 
-get_trend_text <- function(assessment_data, trendlength){
+get_trend_text <- function(assessment_data, trenddata, trendlength){
   recent_no_years <- assessment_data$info$recent.trend
   if (trendlength == "overall"){
     result <- "Long-term:"
     name_pvalue <- "pltrend"
     name_trend <- "ltrend"
+    trend_string_table <- subset(trenddata, Trend_type %in% "long")$Trend_string
   } else if (trendlength == "recent"){
     result <- paste("Last", recent_no_years, "years:")
     name_pvalue <- "prtrend"
     name_trend <- "rtrend"
+    trend_string_table <- subset(trenddata, Trend_type %in% "short")$Trend_string
   } else {
     stop("trendlength must be 'overall' or 'recent'")
   }
   pvalue <- assessment_data$assessment$summary[[name_pvalue]]
-  if (pvalue > 0.05){
+  if (trend_string_table %in% "No change"){
     result <- paste0(result, " no overall trend (", get_pvalue_text(pvalue), ")")
-  } else if (assessment_data$assessment$summary[[name_trend]] > 0){
+  } else if (trend_string_table %in% c("data span <= 10 years", "Too few years")){
+    result <- paste0(result, " ", trend_string_table)
+  } else if (trend_string_table %in% "Increasing"){
     result <- paste0(result, " increased concentrations (", get_pvalue_text(pvalue), ")")
-  } else {
+  } else if (trend_string_table %in% "Decreasing"){
     result <- paste0(result, " decreased concentrations (", get_pvalue_text(pvalue), ")")
+  } else {
+    result <- paste0(result, " trend analysis failed")
   }
   result
 }
