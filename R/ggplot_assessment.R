@@ -101,6 +101,7 @@ ggplot_assessment <- function(assessment_data,
     pred$ci.lower <- exp(pred$ci.lower) - 1
     pred$ci.upper <- exp(pred$ci.upper) - 1
     pred$fit <- exp(pred$fit) - 1
+    pointdata$y <- pointdata$y - 1
   } else if (assessment_data$series$distribution == "lognormal"){
     pred$ci.lower <- exp(pred$ci.lower)
     pred$ci.upper <- exp(pred$ci.upper)
