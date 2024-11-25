@@ -48,7 +48,6 @@ open_assessment_app <- function(assessdata_object, trend_dataframe){
     shiny::sidebarLayout(
       shiny::sidebarPanel(
         shiny::selectInput(inputId = "determinand", label = "Parameter", choices = lookup_determinands$determinand, selected = "CD"),
-        shiny::selectInput(inputId = "station", label = "Station", choices = lookup_stations$station, selected = "30B Oslo City area (4684)"),
         shiny::uiOutput("stationControls"),
         shiny::uiOutput("matrixControls"),
         shiny::radioButtons(inputId = "plot_points", label = "Points show", choices = c("Annual means", "All data"), selected = "Annual means"),
@@ -81,7 +80,7 @@ open_assessment_app <- function(assessdata_object, trend_dataframe){
       # browser()
       station_values <- stations_from_determ()
       shiny::selectInput(
-        inputId = "station2",
+        inputId = "station",
         label = "Station",
         choices = station_values, selected = "30B Oslo City area (4684)")
     })
