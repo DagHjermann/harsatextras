@@ -22,7 +22,7 @@ library(devtools) # because we are in a new project
 use_git()
 
 #
-# Make github repo, connect to it ----
+# . make github repo, connect to it ----
 #
 
 # - Happy Git e-book
@@ -44,7 +44,7 @@ usethis::use_data_raw()
 
 
 #
-# Add example data ----
+# . add example data ----
 # From the folder 'example_data' in 'harsat_targets' project
 #
 
@@ -68,7 +68,7 @@ use_data(norway_timeseries_all)
 # • Document your data (see 'https://r-pkgs.org/data.html')
 
 #
-# Help file for example data ----
+# . help file for example data ----
 #
 
 # Made 'data.R' file and wrote description for 'norway_timeseries_all'
@@ -81,7 +81,7 @@ use_data(norway_timeseries_all)
 document()
 
 #
-# First build ----
+# . first build ----
 #
 
 # check help file ("R Packages" chapter 1.8)
@@ -89,7 +89,7 @@ load_all()
 ?norway_timeseries_all
 
 #
-# First check ----
+# . first check ----
 #
 #  ("R Packages" chapter 1.9)
 
@@ -99,7 +99,7 @@ check()
 use_mit_license()
 
 #
-# Add first function ----
+# . add first function ----
 #
 
 # "R Packages" chapter 1.7
@@ -114,7 +114,11 @@ use_r("split_timeseries_object")
 # - add the two RData (rda) files needed to test run 'split_timeseries_object'
 # - finalize description for 'split_timeseries_object' , including example
 
-# read_data_tar, preparations ----
+#
+# new function: read_data_tar ----
+#
+# . preparations ----
+#
 # add
 # - info file (as exported data object)
 # - station dictionary (as csv file)
@@ -128,7 +132,7 @@ load_all()
 ?harsatextras_example
 # testing examples in help file
 
-# add read_data_tar ----
+# . add read_data_tar ----
 use_r("read_data_tar")
 # Code > Insert ROxygen skeleton
 # ... fill out text for help file
@@ -158,5 +162,20 @@ use_r("get_trend_text")
 #
 usethis::use_readme_rmd()
 devtools::build_readme()
+
+
+#
+# Appendix: Snippets for various testing
+#
+
+library(devtools)
+load_all()
+
+assessment_data <- readRDS("../milkys4/other/OSPAR_NO_2023_assessment_for_app_2024-11-22.rds")
+trendtable <- readRDS("../milkys4/harsat_reports/milkys4_903_trends_12.rds")
+debugonce(open_assessment_app)
+debug(ggplot_assessment)
+open_assessment_app(assessment_data, trendtable)
+
 
 
