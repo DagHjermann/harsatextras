@@ -83,109 +83,109 @@ ggplot_assessment <- function(assessment_data,
 
   } else {
 
-  if (!is.na(plot_points)){
-    if (plot_points == "all"){
-      pointdata <- assessment_data$assessment$fullData
-      pointdata$y = pointdata$concentration
-      pointdata$LOQ = ifelse(pointdata$censoring %in% "Q", "Under LOQ", "Over LOQ")
-    } else if (plot_points == "annual"){
-      pointdata <- assessment_data$assessment$annualIndex
-      pointdata$y = exp(pointdata$index)
-      pointdata$LOQ = ifelse(pointdata$censoring %in% "Q", "Under LOQ", "Over LOQ")
+    if (!is.na(plot_points)){
+      if (plot_points == "all"){
+        pointdata <- assessment_data$assessment$fullData
+        pointdata$y = pointdata$concentration
+        pointdata$LOQ = ifelse(pointdata$censoring %in% "Q", "Under LOQ", "Over LOQ")
+      } else if (plot_points == "annual"){
+        pointdata <- assessment_data$assessment$annualIndex
+        pointdata$y = exp(pointdata$index)
+        pointdata$LOQ = ifelse(pointdata$censoring %in% "Q", "Under LOQ", "Over LOQ")
+      } else {
+        warning(
+          "plot_points = 'all': plot all concentrations\n",
+          "plot_points = 'annual': plot annual index",
+          "plot_points = NA: plot trend only"
+        )
+      }
     } else {
-      warning(
-        "plot_points = 'all': plot all concentrations\n",
-        "plot_points = 'annual': plot annual index",
-        "plot_points = NA: plot trend only"
-      )
+      pointdata <- NULL
     }
-  } else {
-    pointdata <- NULL
-  }
-  pred <- assessment_data$assessment$pred
-  if (grepl("PLUS1$", assessment_data$series$determinand)){
-    pred$ci.lower <- exp(pred$ci.lower) - 1
-    pred$ci.upper <- exp(pred$ci.upper) - 1
-    pred$fit <- exp(pred$fit) - 1
-    pointdata$y <- pointdata$y - 1
-  } else if (assessment_data$series$distribution == "lognormal"){
-    pred$ci.lower <- exp(pred$ci.lower)
-    pred$ci.upper <- exp(pred$ci.upper)
-    pred$fit <- exp(pred$fit)
-  }
-  if (!is.null(pointdata)){
-    gg <- ggplot2::ggplot(pointdata, ggplot2::aes(year)) +
-      ggplot2::geom_ribbon(
-        data = pred,
-        ggplot2::aes(ymin = ci.lower, ymax = ci.upper),  # note; hard-coded exp
-        fill = trendcolor_fill) +
-      ggplot2::geom_path(
-        data = pred,
-        ggplot2::aes(y = fit),
-        color = trendcolor_line,
-        linewidth = ggplot2::rel(trendwidth)) +
-      ggplot2::geom_point(
-        ggplot2::aes(y = y, shape = LOQ),
-        color = pointcolor) +
-      ggplot2::scale_shape_manual(
-        values = c("Over LOQ" = pointshapes[1], "Under LOQ" = pointshapes[2]))
-  } else {
-    gg <- ggplot2::ggplot(pred, ggplot2::aes(year)) +
-      ggplot2::geom_ribbon(
-        ggplot2::aes(ymin = ci.lower, ymax = ci.upper),  # note; hard-coded exp
-        fill = trendcolor_fill) +
-      ggplot2::geom_path(
-        ggplot2::aes(y = fit),
-        color = trendcolor_line,
-        size = ggplot2::rel(trendwidth))
-  }
-  if (is.null(title)){
-    title <- assessment_data$output_id
-    if (assessment_data$series$determinand == "VDSI.PLUS1"){
-      title <- sub("VDSI.PLUS1", "VDSI (imposex)", title)
+    pred <- assessment_data$assessment$pred
+    if (grepl("PLUS1$", assessment_data$series$determinand)){
+      pred$ci.lower <- exp(pred$ci.lower) - 1
+      pred$ci.upper <- exp(pred$ci.upper) - 1
+      pred$fit <- exp(pred$fit) - 1
+      pointdata$y <- pointdata$y - 1
+    } else if (assessment_data$series$distribution == "lognormal"){
+      pred$ci.lower <- exp(pred$ci.lower)
+      pred$ci.upper <- exp(pred$ci.upper)
+      pred$fit <- exp(pred$fit)
     }
-  }
-  if (is.null(subtitle))
-    subtitle <- assessment_data$series$station_name
-  if (is.null(label_yaxis)){
-    if (grepl("VDSI", assessment_data$series$determinand)){
-      label_yaxis <- "Average imposex index"
+    if (!is.null(pointdata)){
+      gg <- ggplot2::ggplot(pointdata, ggplot2::aes(year)) +
+        ggplot2::geom_ribbon(
+          data = pred,
+          ggplot2::aes(ymin = ci.lower, ymax = ci.upper),  # note; hard-coded exp
+          fill = trendcolor_fill) +
+        ggplot2::geom_path(
+          data = pred,
+          ggplot2::aes(y = fit),
+          color = trendcolor_line,
+          linewidth = ggplot2::rel(trendwidth)) +
+        ggplot2::geom_point(
+          ggplot2::aes(y = y, shape = LOQ),
+          color = pointcolor) +
+        ggplot2::scale_shape_manual(
+          values = c("Over LOQ" = pointshapes[1], "Under LOQ" = pointshapes[2]))
     } else {
-      label_yaxis <- paste0("Concentration, ", assessment_data$series$unit)
+      gg <- ggplot2::ggplot(pred, ggplot2::aes(year)) +
+        ggplot2::geom_ribbon(
+          ggplot2::aes(ymin = ci.lower, ymax = ci.upper),  # note; hard-coded exp
+          fill = trendcolor_fill) +
+        ggplot2::geom_path(
+          ggplot2::aes(y = fit),
+          color = trendcolor_line,
+          size = ggplot2::rel(trendwidth))
     }
-  }
-  gg <- gg  +
-    ggplot2::labs(
-      title = title,
-      subtitle = subtitle,
-      y = label_yaxis)
-  if (!is.null(ylim)){
-    if (!(is.numeric(ylim) & length(ylim) == 2)){
-      stop("ylim must be a vector of two numbers, e.g., 'c(0,10)'")
+    if (is.null(title)){
+      title <- assessment_data$output_id
+      if (assessment_data$series$determinand == "VDSI.PLUS1"){
+        title <- sub("VDSI.PLUS1", "VDSI (imposex)", title)
+      }
     }
-  }
-  if (add_trend_text){
-    textline1 <- get_trend_text(assessment_data, trend_dataframe_series, "overall")
-    textline2 <- get_trend_text(assessment_data, trend_dataframe_series, "recent")
-    gg <- gg +
-      ggplot2::annotate(
-        "text",
-        x = Inf, y = Inf,                                          # Inf, Inf = top right of panel
-        label = paste0(textline1, "\n", textline2),                # \n means 'new line'
-        hjust = 1.02, vjust = 1.3)                                 # hjust = 1 means right-adjusted
-                                                                   # vjust = 1 means top-adjusted (1.3 adds extra space)
-  }
-  if (logscale & add_trend_text){
-    gg <- gg + ggplot2::scale_y_log10(limits = ylim,
-                                      expand = ggplot2::expansion(mult = c(0, 0.2)))         # add space on top, to make room for text
-  } else if (logscale & !add_trend_text){
-    gg <- gg + ggplot2::scale_y_log10(limits = ylim)
-  } else if (!logscale & add_trend_text){
-    gg <- gg + ggplot2::scale_y_continuous(limits = ylim,
-                                           expand = ggplot2::expansion(mult = c(0, 0.2)))    # add space on top, to make room for text
-  } else if (!logscale & !add_trend_text){
-    gg <- gg + ggplot2::scale_y_continuous(limits = ylim)
-  }
+    if (is.null(subtitle))
+      subtitle <- assessment_data$series$station_name
+    if (is.null(label_yaxis)){
+      if (grepl("VDSI", assessment_data$series$determinand)){
+        label_yaxis <- "Average imposex index"
+      } else {
+        label_yaxis <- paste0("Concentration, ", assessment_data$series$unit)
+      }
+    }
+    gg <- gg  +
+      ggplot2::labs(
+        title = title,
+        subtitle = subtitle,
+        y = label_yaxis)
+    if (!is.null(ylim)){
+      if (!(is.numeric(ylim) & length(ylim) == 2)){
+        stop("ylim must be a vector of two numbers, e.g., 'c(0,10)'")
+      }
+    }
+    if (add_trend_text){
+      textline1 <- get_trend_text(assessment_data, trend_dataframe_series, "overall")
+      textline2 <- get_trend_text(assessment_data, trend_dataframe_series, "recent")
+      gg <- gg +
+        ggplot2::annotate(
+          "text",
+          x = Inf, y = Inf,                                          # Inf, Inf = top right of panel
+          label = paste0(textline1, "\n", textline2),                # \n means 'new line'
+          hjust = 1.02, vjust = 1.3)                                 # hjust = 1 means right-adjusted
+      # vjust = 1 means top-adjusted (1.3 adds extra space)
+    }
+    if (logscale & add_trend_text){
+      gg <- gg + ggplot2::scale_y_log10(limits = ylim,
+                                        expand = ggplot2::expansion(mult = c(0, 0.2)))         # add space on top, to make room for text
+    } else if (logscale & !add_trend_text){
+      gg <- gg + ggplot2::scale_y_log10(limits = ylim)
+    } else if (!logscale & add_trend_text){
+      gg <- gg + ggplot2::scale_y_continuous(limits = ylim,
+                                             expand = ggplot2::expansion(mult = c(0, 0.2)))    # add space on top, to make room for text
+    } else if (!logscale & !add_trend_text){
+      gg <- gg + ggplot2::scale_y_continuous(limits = ylim)
+    }
 
   } # end of 'if assessment_data is not NULL'
 
