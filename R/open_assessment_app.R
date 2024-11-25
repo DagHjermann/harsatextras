@@ -49,6 +49,7 @@ open_assessment_app <- function(assessdata_object, trend_dataframe){
       shiny::sidebarPanel(
         shiny::selectInput(inputId = "determinand", label = "Parameter", choices = lookup_determinands$determinand, selected = "CD"),
         shiny::selectInput(inputId = "station", label = "Station", choices = lookup_stations$station, selected = "30B Oslo City area (4684)"),
+        shiny::uiOutput("stationControls"),
         shiny::uiOutput("matrixControls"),
         shiny::radioButtons(inputId = "plot_points", label = "Points show", choices = c("Annual means", "All data"), selected = "Annual means"),
         shiny::radioButtons(inputId = "logscale", label = "Scale of y axis", choices = c("Log scale", "Linear scale"), selected = "Log scale"),
@@ -69,6 +70,21 @@ open_assessment_app <- function(assessdata_object, trend_dataframe){
 
   # Define server logic required to draw a histogram
   server <- function(input, output) {
+
+    stations_from_determ <- reactive({
+
+      subset(lookup_series, determinand %in% input$determinand)$station |> unique()
+
+    })
+
+    output$stationControls <- shiny::renderUI({
+      # browser()
+      station_values <- stations_from_determ()
+      shiny::selectInput(
+        inputId = "station2",
+        label = "Station",
+        choices = station_values, selected = "30B Oslo City area (4684)")
+    })
 
     series_determ_station <- reactive({
 
