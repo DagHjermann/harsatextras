@@ -77,6 +77,12 @@ ggplot_assessment <- function(assessment_data,
 
   requireNamespace("ggplot2")
 
+  if (is.null(assessment_data)){
+
+    gg <- NULL
+
+  } else {
+
   if (!is.na(plot_points)){
     if (plot_points == "all"){
       pointdata <- assessment_data$assessment$fullData
@@ -180,7 +186,11 @@ ggplot_assessment <- function(assessment_data,
   } else if (!logscale & !add_trend_text){
     gg <- gg + ggplot2::scale_y_continuous(limits = ylim)
   }
+
+  } # end of 'if assessment_data is not NULL'
+
   gg
+
 }
 
 if (FALSE){
