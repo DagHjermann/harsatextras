@@ -15,6 +15,12 @@
 #' open_assessment_app(assessment_data)
 #' }
 #'
+#' \dontrun{
+#' assessment_data <- readRDS("/home/jovyan/shared/common/DHJ/milkys4/other/OSPAR_NO_2023_assessment_for_app_2024-11-22.rds")
+#' trendtable <- readRDS("/home/jovyan/shared/common/DHJ/milkys4/harsat_reports/milkys4_903_trends_12.rds")
+#' open_assessment_app(assessment_data, trendtable)
+#' }
+#'
 open_assessment_app <- function(assessdata_object, trend_dataframe){
 
   requireNamespace("ggplot2")
