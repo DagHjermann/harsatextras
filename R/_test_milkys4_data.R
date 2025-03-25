@@ -1,4 +1,9 @@
 
+#
+# Script for testing app
+#
+# NOTE: also used for making plots for national environmental indicator (project "miljogift-indikator-R")
+
 library(devtools)
 assess <- readRDS("/home/jovyan/shared/common/DHJ/milkys4/other/OSPAR_NO_2023_assessment_for_app_2024-11-22.rds")
 trends <- readRDS("/home/jovyan/shared/common/DHJ/milkys4/harsat_reports/milkys4_903_trends_12.rds")
@@ -12,8 +17,8 @@ trends %>%
 open_assessment_app(assess, trends)
 
 
-debugonce(ggplot_assessment)
-debugonce(get_trend_text)
+# debugonce(ggplot_assessment)
+# debugonce(get_trend_text)
 ggplot_assessment(
   assess[["10921 CD Gadus morhua LI NA"]],
   subset(trends, series %in% "10921 CD Gadus morhua LI NA"),
@@ -21,31 +26,6 @@ ggplot_assessment(
 
 
 
-subset(trenddata, Trend_type %in% "long")$Trend_string
-subset(trenddata, Trend_type %in% "long")$p
-
-    stations_from_determ <- reactive({
-
-      subset(lookup_series, determinand %in% input$determinand)$station |> unique()
-
-    })
-
-    output$stationControls <- shiny::renderUI({
-      # browser()
-      station_values <- stations_from_determ()
-      shiny::selectInput(
-        inputId = "station",
-        label = "Station",
-        choices = station_values, selected = "30B Oslo City area (4684)")
-    })
-
-    series_determ_station <- reactive({
-
-      selected_series <- subset(lookup_series, determinand %in% input$determinand & station %in% input$station)
-
-      selected_series
-
-    })
 #
 # TEST open_assesment_app ----
 #
@@ -178,6 +158,7 @@ series_determ_station <- # reactive({
     label_yaxis = label_yaxis
   )
 
+
   # if (input$expand_x_txt != ""){
   #   expand_x <- as.numeric(strsplit(input$expand_x_txt, ",")[[1]])
   #   gg <- gg + ggplot2::expand_limits(x = expand_x)
@@ -241,7 +222,10 @@ gg2 <- gg +
              color = "purple") +
   annotate("text", x = line_label_x, y = foodlimit, label = "Mattrygghet",
            color = "purple", vjust = -0.3, hjust = 0) +
-  theme_bw()
+  theme_bw() +
+  # title with latin name in italics, markdown format (see theme 'element_markdown' below)
+  labs(title = "Mercury (Hg) in cod (*Gadus morhua*) muscle") +
+  theme(plot.title = ggtext::element_markdown())
 
 gg2
 
@@ -298,7 +282,11 @@ gg2 <- gg +
              color = "darkgreen") +
   annotate("text", x = line_label_x, y = proref, label = "PROREF",
            color = "darkgreen", vjust = -0.3, hjust = 0) +
-  theme_bw()
+  theme_bw() +
+  # title with latin name in italics, markdown format (see theme 'element_markdown' below)
+  labs(title = "Mercury (Hg) in blue mussel (*Mytilus edulis*) whole soft body") +
+  theme(plot.title = ggtext::element_markdown())
+
 gg2
 
 ggsave("../milkys4/other/miljøindikator2025_hg_blåskjell.png", gg2, width = 8.3, height = 5.5)
