@@ -16,7 +16,7 @@
 
 
 get_trend_text <- function(assessment_data, trenddata, trendlength){
-  recent_no_years <- assessment_data$info$recent.trend
+  recent_no_years <- assessment_data$assessment$contrasts$end[2] - assessment_data$assessment$contrasts$start[2] + 1
   if (trendlength == "overall"){
     result <- "Long-term:"
     name_pvalue <- "p_overall_change"
