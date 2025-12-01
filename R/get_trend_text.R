@@ -19,13 +19,13 @@ get_trend_text <- function(assessment_data, trenddata, trendlength){
   recent_no_years <- assessment_data$info$recent.trend
   if (trendlength == "overall"){
     result <- "Long-term:"
-    name_pvalue <- "pltrend"
-    name_trend <- "ltrend"
+    name_pvalue <- "p_overall_change"
+    name_trend <- "overall_change"
     trend_string_table <- subset(trenddata, Trend_type %in% "long")$Trend_string
   } else if (trendlength == "recent"){
     result <- paste("Last", recent_no_years, "years:")
-    name_pvalue <- "prtrend"
-    name_trend <- "rtrend"
+    name_pvalue <- "p_recent_change"
+    name_trend <- "recent_change"
     trend_string_table <- subset(trenddata, Trend_type %in% "short")$Trend_string
   } else {
     stop("trendlength must be 'overall' or 'recent'")
